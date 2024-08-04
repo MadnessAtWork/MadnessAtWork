@@ -13,6 +13,7 @@ Web Development: HTML, CSS, JavaScript, PHP, Node.js
 Tools: Git, GitHub, VS Code  
 Other: Software testing, team management  
 ### Projects
+Project 1: this project is a platformer game built in C# using the monogame flow system. We created the entire engine from scrap. It was created for the Business Professionals of America competition, however the final round of the competition was cut short by COVID-19.
 
 ### Contact
 Email: dwcarpen02@gmail.com  
