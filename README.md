@@ -16,5 +16,5 @@ Other: Software testing, team management
 
 ### Contact
 Email: dwcarpen02@gmail.com
-linkedIn: www.linkedin.com/in/daniel-carpenter-8503412a1
+LinkedIn: www.linkedin.com/in/daniel-carpenter-8503412a1
 GitHub: MadnessAtWork
