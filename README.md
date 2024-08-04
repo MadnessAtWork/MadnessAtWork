@@ -14,7 +14,7 @@ Tools: Git, GitHub, VS Code
 Other: Software testing, team management
 ### Projects
 
-###Contact
+### Contact
 Email: dwcarpen02@gmail.com
 linkedIn: www.linkedin.com/in/daniel-carpenter-8503412a1
 GitHub: MadnessAtWork
