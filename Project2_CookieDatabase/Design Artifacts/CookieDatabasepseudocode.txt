@@ -1,0 +1,343 @@
+##The primary starting file that will direct to the Home Page
+Cookie database
+	Main
+		if CookieDatabase does not exist:
+			CookieDatabase = new Database
+
+		ScreenManager.OpenHome
+
+	variable type CookieType
+		##All cookie types for the database will be stored here
+	variable type MixInType
+		##All cookie mix ins for the database will be stored here
+
+
+##The Order Class, specifically designed to organize the data for each entry into the database
+Order
+	Phone = new String
+	Name = new String
+	Price = new Float
+	Date = new DateTime
+	Cookies = new List(CookieType)
+	Mixins = new List(MixinType)
+	
+	Order(String Phone, String Name, Float Price, DateTime Date, List(CookieType) Cookies, List(MixInType) MixIns)
+		Phone = this.Phone
+		Name = this.Name
+		Price = this.Price
+		Date = this.Date
+		Cookies = this.Cookies
+		Mixins = this.MixIns
+	
+	Order(String Phone, String Name, Float Price, List(CookieType) Cookies, List(MixInType) MixIns)
+		Phone = this.Phone
+		Name = this.Name
+		Price = this.Price
+		Date = DateTime.today
+		Cookies = this.Cookies
+		Mixins = this.MixIns
+
+
+##A class handling all the functions that swap screens
+ScreenManager
+	OpenHome
+		stop HistoryHandler
+		stop NewOrderHandler
+		stop GraphHandler
+		initiate HomeScreen
+	
+	OpenNewOrder
+		stop HistoryHandler
+		stop HomeScreen
+		stop GraphHandler
+		initiate NewOrderHandler
+	
+	OpenHistory
+		stop HomeScreen
+		stop NewOrderHandler
+		stop GraphHandler
+		initiate HistoryHandler
+
+	OpenGraphs
+		stop HistoryHandler
+		stop NewOrderHandler
+		stop HomeScreen
+		initiate GraphHandler
+
+
+##The class handling all interactions with the database
+DatabaseHandler
+	LoadAllOrders
+		access CookieDatabase
+		OrderList = new List of Orders from CookieDatabase
+		for each Order in CookieDatabase:
+			add Order to OrderList
+
+		return OrderList
+
+	GatherTallies
+		access CookieDatabase
+		CookieTypes = new list of CookieType
+		MixInTypes = new list of MixInType
+		CookieTallies = new dictionary of CookieType
+		for each CookieType in CookieTypes:
+			add CookieType to CookieTallies with a value of zero
+			find orders containing CookieType in CookieDatabase
+			CookieTypes(CookieType) = number of orders with CookieType
+
+		MixInTallies = new dictionary of MixInType
+		for each MixInType in MixInTypes:
+			add MixInType to MixInTypes with a value of zero
+			find orders containing MixInType in CookieDatabase
+			MixInTypes(MixInType) = number of orders with MixInType
+
+		Totals = new list
+		add CookieTallies to Totals
+		add MixInTallies to Totals
+		return Totals
+
+	WriteToDatabase(Order o)
+		access CookieDatabase
+		add o to CookieDatabase
+
+
+##The Homescreen class with event handlers for its buttons
+HomeScreen
+	ViewHistoryButton = new Button
+	NewOrderButton = new Button
+	ViewGraphsButton = new Button
+	ExitButton = new Button
+
+	Start
+		set display format to HomeScreenDisplay
+	
+	Update
+		if ViewHistoryButton is pressed:
+			ScreenManager.OpenHistory
+
+		if NewOrderButton is pressed:
+			ScreenManager.OpenNewOrder
+
+		if ViewGraphsButton is pressed:
+			ScreenManager.OpenGraphs
+
+		if ExitButton is pressed:
+			close Application
+
+
+##The HistoryHandler class with event handlers for its buttons
+HistoryHandler
+	HomeButton = new Button
+	OrderHistoryTable = new Table
+	NameSortButton = new Button
+	PhoneSortButton = new Button
+	PriceSortButton = new Button
+	DateSortButton = new Button
+	EnterPhoneFilter = new InputField
+	EarlyDateFilter = new DateInputField
+	LateDateFilter = new DateInputField
+	CookieTypeFilter = new DropDownField
+	FullCookieOrders = new List of Orders
+	CookieOrders = new List of Orders
+	AscendingSort = new Boolean
+	CurrentSort = new SortType
+	ClearFilterButton = new Button
+
+	variable type SortType:
+		Name
+		Phone
+		Price
+		Date
+		Unsorted
+
+	Start
+		AscendingSort = true
+		CurrentSort = Unsorted
+		set display format to HistoryScreenDisplay
+		FullCookieOrders = DatabaseHandler.LoadAllOrders
+		CookieOrders = FullCookieOrders
+		PopulateTable
+
+		Sort(Date)
+	
+	Update
+		if HomeButton is pressed:
+			ScreenManager.OpenHome
+
+		if NameSortButton is pressed:
+			Sort(Name)
+
+		if PhoneSortButton is pressed:
+			Sort(Phone)
+
+		if PriceSortButton is pressed:
+			Sort(Price)
+
+		if DateSortButton is pressed:
+			Sort(Date)
+		
+		if EnterPhoneFilter is submitted:
+			PhoneFilter(EnterPhoneFilter.text)
+		
+		if EarlyDateFilter is changed:
+			GTDateFilter(EarlyDateFilter.Date)
+
+		if LateDateFilter is changed:
+			LTDateFilter(LateDateFilter.Date)
+
+		if CookieTypeFilter is changed:
+			CTFilter(CookieTypeFilter.CookieType)
+		
+		if ClearFilterButton is pressed:
+			CookieOrders = FullCookieOrders
+			resort = CurrentSort
+			CurrentSort = Unsorted
+			Sort(resort)
+			
+
+	PopulateTable:
+		clear OrderHistoryTable
+		for each order in CookieOrders:
+			add order to OrderHistoryTable
+
+	Sort(SortType ST)
+		if ST == CurrentSort:
+			AscendingSort = not AscendingSort
+		else:
+			AscendingSort = true
+		
+		if AscendingSort:
+			sort CookieOrders by Order.ST in ascending order
+		else:
+			sort CookieOrders by Order.ST in descending order 
+
+		PopulateTable
+
+	PhoneFilter(String PhoneNum)
+		clear CookieOrders
+		for each Order in FullCookieOrders:
+			if Order.Phone contains PhoneNum:
+				CookieOrders.add(order)
+
+		resort = CurrentSort
+		CurrentSort = Unsorted
+		Sort(resort)
+
+	GTDateFilter(DateTime EarlyDate)
+		clear CookieOrders
+		for each Order in FullCookieOrders:
+			if Order.Date is greater than or equal to EarlyDate:
+				CookieOrders.add(order)
+
+		resort = CurrentSort
+		CurrentSort = Unsorted
+		Sort(resort)
+
+	LTDateFilter(DateTime LateDate)
+		clear CookieOrders
+		for each Order in FullCookieOrders:
+			if Order.Date is less than or equal to LateDate:
+				CookieOrders.add(order)
+
+		resort = CurrentSort
+		CurrentSort = Unsorted
+		Sort(resort)
+
+	CTFilter(CookieType Cookie)
+		clear CookieOrders
+		for each Order in FullCookieOrders:
+			if Order.Cookies contains Cookie:
+				CookieOrders.add(order)
+
+		resort = CurrentSort
+		CurrentSort = Unsorted
+		Sort(resort)
+
+
+##The class for entering new orders and all the buttons on this screen
+NewOrderHandler
+	COOKIETYPECHECKBOX = new Checkbox 
+###This example checkbox will be completed for each cookietype, but for the sake of the model I'll only have the one since they function similarly
+	MIXINTYPECHECKBOX = new Checkbox
+###This example checkbox will be completed for each MixInType, but for the sake of the model I'll only have the one since they function similarly
+	PhoneEntryBox = new InputField
+	NameEntryBox = new InputField
+	PriceEntryBox = new PriceInputField
+	DateEntryBox = new DateInputField
+	EnterButton = new Button
+	HomeButton = new Button
+	CookieList = new List(CookieTypes)
+	MixInLIst = new List(MixInTypes)
+		
+	Start
+		set display format to NewOrderScreen
+	
+	Update
+		if EnterButton is pressed:
+			if PhoneEntryBox.text is not empty and PhoneEntryBox.text is a valid phone number format:
+				if NameEntryBox.text is not empty:
+					if PriceEntryBox.float is not empty:
+						if CookieList is not empty:
+							if DateEntryBox.date is empty:
+								WriteToDatabase(new Order(PhoneEntryBox.text, NameEntryBox.text, PriceEntryBox.float, CookieList, MixinList))
+							else:
+								WriteToDatabase
+								(new Order(PhoneEntryBox.text, NameEntryBox.text, PriceEntryBox.float, DateEntryBox.date, CookieList, MixinList))
+
+						else:
+							print "Date is empty, please enter a valid date to continue"
+
+					else:
+						print "Price is empty, please enter a valid price to continue"
+
+				else:
+					print "Name is empty, please enter a valid name to continue"
+
+			else:
+				print "Phone number is invalid or empty, please correct this to continue"
+
+		if COOKIETYPECHECKBOX is checked:
+			add COOKIETYPECHECKBOX.CookieType to CookieList
+
+		if MIXINTYPECHECKBOX is checked:
+			add MIXINTYPECHECKBOX.MixInType to MixInList
+		
+		if COOKIETYPECHECKBOX is unchecked:
+			remove COOKIETYPECHECKBOX.CookieType from CookieList
+			
+		if MIXINTYPECHECKBOX is unchecked:
+			remove MIXINTYPECHECKBOX.MixInType from MixInList
+
+		if HomeButton is pressed
+			ScreenManager.OpenHome
+
+
+##This class is for the display of the graphs for all cookie types
+GraphHandler
+	CookiePie = new PieChart(8 portions)
+	MixInPie = new PieChart(10 portions)
+	CookieTallies = new Dictionary(CookieType, int)
+	MixInTallies = new Dictionary(MixInType, int)
+	HomeButton = new Button
+	
+	Start
+		TotalList = GatherTallies
+		CookieTallies = TotalList[0]
+		MixInTallies = TotalList[1]
+		TotalCookies = 0
+		for each pair in CookieTallies:
+			TotalCookies += pair.value
+
+		TotalMixIns = 0
+		for each pair in MixInTallies:
+			TotalMixIns += pair.value
+			
+		for each pair in CookieTallies:
+			add to CookiePie as a percentage of (pair.value / TotalCookies)*100
+
+		for each pair in MixInTallies:
+			add to MixInPie as a percentage of (pair.value / TotalMixIns)*100
+
+	Update
+		if HomeButton is pressed:
+			ScreenManager.OpenHome

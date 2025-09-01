@@ -1,0 +1,17 @@
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.csproj.AssemblyReference.cache
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.HistoryScreen.resources
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.HomeScreen.resources
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.Properties.Resources.resources
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.csproj.GenerateResource.cache
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.csproj.CoreCompileInputs.cache
+C:\Users\dwcar\source\repos\MegsCookieDatabase\bin\Debug\CookieDatabase.mdf
+C:\Users\dwcar\source\repos\MegsCookieDatabase\bin\Debug\CookieDatabase_log.ldf
+C:\Users\dwcar\source\repos\MegsCookieDatabase\bin\Debug\MegsCookieDatabase.exe.config
+C:\Users\dwcar\source\repos\MegsCookieDatabase\bin\Debug\MegsCookieDatabase.exe
+C:\Users\dwcar\source\repos\MegsCookieDatabase\bin\Debug\MegsCookieDatabase.pdb
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.exe
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.pdb
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.exe.config
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.GraphScreen.resources
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.NewOrderScreen.resources
+C:\Users\dwcar\source\repos\MegsCookieDatabase\obj\Debug\MegsCookieDatabase.MessagePopup.resources
