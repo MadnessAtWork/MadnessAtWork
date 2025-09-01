@@ -15,6 +15,8 @@ Other: Software testing, team management
 ### Projects
 Project 1: this project is a platformer game built in C# using the monogame flow system. We created the entire engine from scrap. It was created for the Business Professionals of America competition, however the final round of the competition was cut short by COVID-19.
 
+Project 2: this project was a database connected to a GUI that was built using a local SQL server database and Visual Studio's Windows Forms API. It was designed to hold the cookie information that my spouse gathered for orders from her online small business. This entire project was developed in less than 5 weeks after the topic was determined for the sake of the senior project of my Bachelor's degree, and the design artifacts that were produced through this course have been included as well.
+
 ### Contact
 Email: dwcarpen02@gmail.com  
 LinkedIn: www.linkedin.com/in/daniel-carpenter-8503412a1  
